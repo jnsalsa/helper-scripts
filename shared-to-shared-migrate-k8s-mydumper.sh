@@ -222,7 +222,7 @@ shw_norm "================================================"
 # Import to new database.
 shw_info "> Importing the dump into ${PROVIDER_HOST}"
 shw_info "================================================"
-kubectl -n "$NAMESPACE" exec "$POD" -- bash -c "time myloader -h '$PROVIDER_HOST' -u '$DB_USER' -p '$DB_PASSWORD' -B '$DB_NAME' --verbose 2 -d /tmp/mydumper --overwrite-tables"
+kubectl -n "$NAMESPACE" exec "$POD" -- bash -c "time myloader -h '$PROVIDER_HOST' -u '$DB_USER' -p '$DB_PASSWORD' -B '$DB_NAME' --verbose 2 -d /tmp/mydumper --overwrite-tables --innodb-optimize-keys"
 kubectl -n "$NAMESPACE" exec "$POD" -- bash -c "rm -rf /tmp/mydumper && rm $MIGRATE_FILE && rm $CONF_FILE"
 shw_norm "> Import is done"
 shw_norm "================================================"
