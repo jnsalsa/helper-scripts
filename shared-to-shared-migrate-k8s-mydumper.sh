@@ -227,6 +227,13 @@ kubectl -n "$NAMESPACE" exec "$POD" -- bash -c "rm -rf /tmp/mydumper && rm $MIGR
 shw_norm "> Import is done"
 shw_norm "================================================"
 
+# Analyze tables to generate statistics.
+shw_info "> Running mysqlcheck on ${PROVIDER_HOST} for all tables in ${DB_NAME}"
+shw_info "================================================"
+kubectl -n "$NAMESPACE" exec "$POD" -- bash -c "time mysqlcheck -h '$PROVIDER_HOST' -u '$DB_USER' -p'$DB_PASSWORD' -B '$DB_NAME' --analyze --verbose"
+shw_norm "> Analysis done"
+shw_norm "================================================"
+
 # Alter the network service(s).
 shw_info "> Altering the Network Service $DB_NETWORK_SERVICE to point at $PROVIDER_HOST"
 shw_info "================================================"
